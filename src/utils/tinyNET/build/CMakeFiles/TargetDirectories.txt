@@ -1,0 +1,2 @@
+/home/jack/ntian_workspace/src/ntian_native_sdk/src/utils/tinyNET/build/CMakeFiles/tinyNET.dir
+/home/jack/ntian_workspace/src/ntian_native_sdk/src/utils/tinyNET/build/CMakeFiles/tinyASK.dir

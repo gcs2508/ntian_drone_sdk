@@ -1,0 +1,1 @@
+/home/jack/ntian_workspace/src/ntian_native_sdk/src/utils/tinySAK/build/CMakeFiles/tinyASK.dir
