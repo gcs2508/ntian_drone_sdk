@@ -30,7 +30,10 @@ option. For example:
 	* JNI_OnLoad to get the JVM
 	* get ENV to call the CallBack Method function
 * Methods
-	
+	* drone_connect_callback
+	* normal_message_callback
+	* drone_filght_mode_callback
+	* drone_rssi_callback
 ```sequence
 Android_APP-->NtianSDK: SDK_init
 Android_APP-->NtianSDK:	Drone_connect 
@@ -40,7 +43,6 @@ NtianSDK-->Android_APP: Listeners NotifyRSSI
 NtianSDK-->Android_APP: Listeners NotifyNormalMessage
 Android_APP-->NtianSDK:	FollowMe GPS Location	
 ```
----
 ```sequence
 Title: SDK init process
 init_sdk-->call_back:register Call_back Methond
@@ -49,7 +51,6 @@ connect_api-->init_connect:Init connect type (serial,udp,tcp,bt,zigbee,tcp_serve
 init_connect-->normal_apis:Implement Rx and Tx apis
 init_connect-->init_sdk: Provide Rx and Tx methods
 ```
----
 ```sequence
 Title: SDK connect
 init_connect-->timer_handler:Create timer to send HeartBeat
@@ -60,7 +61,6 @@ Tx_thread-->normal_apis:Tx method to send Messages
 init_connect-->Rx_thread:Create Rx_thread to recv Messages
 Rx_thread-->normal_apis:Rx method to recv Messages
 ```
----
 ```sequence
 Title:Rx_thread process
 rx_thread-->message_parser:Mavlink messages decode
@@ -72,7 +72,6 @@ call_back->drone_filght_mode_callback:Filght Mode
 call_back->drone_rssi_callback:Drone Rssi 
 call_back-->rx_thread:Mavlink Messages decode agin
 ```
----
 
 
 
