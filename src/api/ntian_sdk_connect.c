@@ -1,24 +1,20 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include <utils/tcp/tcp.h>
 #include <utils/serial/serial.h>
-#include <api_sdk_connect.h>
+#include <api/ntian_sdk_connect.h>
 
 
 normal_connect_api_t *get_serial_api() {
 	
-	serial_api.rx_messages = serial_read;
-	serial_api.tx_messages = serial_write;
+//	serial_api.rx_messages = serial_read;
+//	serial_api.tx_messages = serial_write;
 
 	return &serial_api;
 }
 
 normal_connect_api_t *get_tcp_api() {
 
-	tcp_api.rx_messages = ;
-	tcp_api.tx_messages = ;
+	tcp_api.rx_messages = tcp_recv_message;
+	tcp_api.tx_messages = tcp_send_message;
 
 	return &tcp_api;
 }

@@ -13,23 +13,23 @@ extern "C" {
  * Method: Jni APIs
  * Signature:(I)V
  ********************************************/
-JNIEXPORT void JNICALL Java_com_jni_Ntian_initSdk(JNIENV *env,jobject obj,jobject params);
-JNIEXPORT void JNICALL Java_com_jni_Ntian_connectDrone(JNIENV *env,jobject obj,jint comid);
-JNIEXPORT void JNICALL Java_com_jni_Ntian_ChangeMode(JNIENV *env jobject obj,jint mode);
+JNIEXPORT void JNICALL Java_com_jni_Ntian_initSdk(JNIEnv *env,jobject obj,jint type);
+JNIEXPORT void JNICALL Java_com_jni_Ntian_connectDrone(JNIEnv *env,jobject obj,jint comid);
+JNIEXPORT void JNICALL Java_com_jni_Ntian_ChangeMode(JNIEnv *env,jobject obj,jint mode);
 
 /*********************************************
  * Class : Java_com_jni_Ntian
  * Method: Jni APIs
  * Signature:()V
  ********************************************/
-JNIEXPORT void JNICALL Java_com_jni_Ntian_unInitSdk(JNIENV *env jobject obj);
+JNIEXPORT void JNICALL Java_com_jni_Ntian_unInitSdk(JNIEnv *env ,jobject obj);
 
 /*********************************************
  * Class : Java_com_jni_Ntian
  * Method: Jni APIs
  * Signature:(DDD)V
  ********************************************/
-JNIEXPORT void JNICALL Java_com_jni_Ntian_FollowMe(JNIENV *env jobject obj,jdouble lat,jdouble lon ,jdouble alt);
+JNIEXPORT void JNICALL Java_com_jni_Ntian_FollowMe(JNIEnv *env ,jobject obj,jdouble lat,jdouble lon ,jdouble alt);
 
 
 #ifdef __cpusplus

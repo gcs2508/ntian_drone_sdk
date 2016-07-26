@@ -10,8 +10,8 @@
 
 #ifndef LOG_TAG
 	#define LOG_TAG "NTIAN_LOG"
-	#define LOGE(...) __android_log_printf(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
-	#define LOGD(...) __android_log_printf(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
+	#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
+	#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG,LOG_TAG,__VA_ARGS__)
 #endif 
 
 #ifdef __cpluplus
@@ -23,7 +23,7 @@ extern "C" {
  * Method: Jni APIs
  * Signature:()V
  ********************************************/
-JNIEXPORT void JNICALL Java_com_jni_Ntian_initSdk(JNIENV *env,jobject obj,jint type) {
+JNIEXPORT void JNICALL Java_com_jni_Ntian_initSdk(JNIEnv *env,jobject obj,jint type) {
 	
 	NTIAN_INIT_PARAMS params;
 	if(NTIAN_TRANSPORT_TYPE_SERIAL == type)  {
@@ -35,30 +35,38 @@ JNIEXPORT void JNICALL Java_com_jni_Ntian_initSdk(JNIENV *env,jobject obj,jint t
 		params.type = NTIAN_TRANSPORT_TYPE_TCP;
 		params.param_info.net.port = IP_PORT;
 
-		params.param_info.net.ip_address = IP_ADDRESS;
-		memset(params.param_info.net.ip,0,16);
+//		params.param_info.net.ip_address = IP_ADDRESS;
+		memset(params.param_info.net.ip_address,0,16);
 		memcpy(params.param_info.net.ip_address,IP_ADDRESS,16);
 
-		LOGD("type : tcp -->%s(%d)",params.param_info.net.ip_address,param.param_info.net.port);
+		LOGD("type : tcp -->%s(%d)",params.param_info.net.ip_address,params.param_info.net.port);
+	} else if(NTIAN_TRANSPORT_TYPE_UDP == type) {
+		params.type = NTIAN_TRANSPORT_TYPE_UDP;
+		params.param_info.net.port = IP_PORT;
+
+//		params.param_info.net.ip_address = IP_ADDRESS;
+		memset(params.param_info.net.ip_address,0,16);
+		memcpy(params.param_info.net.ip_address,IP_ADDRESS,16);
+		LOGD("type : udp-->%s(%d)",params.param_info.net.ip_address,params.param_info.net.port);
 	}
 
 	ntian_sdk_init(params);
 }
 
-JNIEXPORT void JNICALL Java_com_jni_Ntian_connectDrone(JNIENV *env,jobject obj,jint comid) {
+JNIEXPORT void JNICALL Java_com_jni_Ntian_connectDrone(JNIEnv *env,jobject obj,jint comid) {
 
+	init_connect_drone(comid);
+}
+
+JNIEXPORT void JNICALL Java_com_jni_Ntian_unInitSdk(JNIEnv *env,jobject obj) {
 
 }
 
-JNIEXPORT void JNICALL Java_com_jni_Ntian_unInitSdk(JNIENV *env jobject obj) {
+JNIEXPORT void JNICALL Java_com_jni_Ntian_FollowMe(JNIEnv *env,jobject obj,jdouble lat,jdouble lon ,jdouble alt) {
 
 }
 
-JNIEXPORT void JNICALL Java_com_jni_Ntian_FollowMe(JNIENV *env jobject obj,jdouble lat,jdouble lon ,jdouble alt) {
-
-}
-
-JNIEXPORT void JNICALL Java_com_jni_Ntian_ChangeMode(JNIENV *env jobject obj,jint mode) {
+JNIEXPORT void JNICALL Java_com_jni_Ntian_ChangeMode(JNIEnv *env ,jobject obj,jint mode) {
 
 
 }
