@@ -60,6 +60,7 @@ set(source_files src/api/ntian_sdk_api.c
 	)
 
 set(timer_test src/test/test_timer.c)
+add_definitions(-DUSE_POLL=1)
 if(${ANDROID} MATCHES "True") 
 
 	message("MAKE ANDROID")
@@ -68,7 +69,7 @@ if(${ANDROID} MATCHES "True")
 	#	target_link_libraries(${LIB_TINYSAK} -no-undefined)
 
 	add_library(${LIB_TINYNET} STATIC ${TINYNET_SRCS})
-	target_link_libraries(${LIB_TINYNET} ${LIB_TINYSAK})
+	target_link_libraries(${LIB_TINYNET} ${LIB_TINYSAK} -DUSE_POLL)
 
 	add_library(${target_name} SHARED ${source_files})
 	target_link_libraries(${target_name} ${LIB_TINYSAK} ${LIB_TINYNET} -pthread -llog)

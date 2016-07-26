@@ -60,9 +60,9 @@ int tcp_recv_message(int fd,void *buf,int size) {
 
 int tcp_uninit() {
 
-	tnet_socket_close(tcp_socket);
+//	tnet_socket_close(tcp_socket);
 	TSK_OBJECT_SAFE_FREE(tcp_socket);
-	tcp_socket = NULL;
+//	tcp_socket = NULL;
 
 	return 0;
 }
