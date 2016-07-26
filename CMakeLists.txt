@@ -44,7 +44,7 @@ configure_file(
 
 
 #头文件目录
-include_directories(src/mavlink include ${TINYASK_DIR} ${TINYNET_DIR} ${TINYNET_SUBDIRS})
+include_directories(src/mavlink include ${TINYASK_DIR} ${TINYNET_DIR})
 aux_source_directory(${TINYASK_DIR} TINYASK_SRCS )
 
 foreach(AVR ${TINYNET_SUBDIRS}) 
@@ -76,10 +76,10 @@ if(${ANDROID} MATCHES "True")
 else()
 	message("MAKE OTHER")
 	add_library(${LIB_TINYSAK} SHARED ${TINYASK_SRCS})
-	target_link_libraries(${LIB_TINYSAK} -ldl -pthread)
+	target_link_libraries(${LIB_TINYSAK} -ldl -pthread -Wall)
 
 	add_library(${LIB_TINYNET} SHARED ${TINYNET_SRCS})
-	target_link_libraries(${LIB_TINYNET} ${LIB_TINYSAK} -pthread)
+	target_link_libraries(${LIB_TINYNET} ${LIB_TINYSAK} -pthread -Wall)
 
 	add_library(${target_name} SHARED ${source_files})
 	target_link_libraries(${target_name} ${LIB_TINYSAK} ${LIB_TINYNET} -pthread -ldl)
