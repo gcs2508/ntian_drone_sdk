@@ -4,10 +4,29 @@
 #include <api/ntian_sdk_api.h>
 #include <api/ntian_sdk_connect.h>
 #include <utils/list/list.h>
+#include <utils/timer/timer.h>
 
 normal_connect_api_t *mavlink_normal_api = NULL;
 messages_list_t *list_queue = NULL;
+tsk_condwait_handle_t * list_queue_condwait;
+void * tx_thread,*rx_thread;
 
+
+static int timer_heartbeart_callback(const void *arg, tsk_timer_id_t timer_id) {
+
+	ntian_timer_t *heart_beart_timer = (ntian_timer_t *)arg;
+	printf("timer_hander !\n");
+
+	tsk_timer_mgr_global_schedule(heart_beart_timer->timeout,timer_heartbeart_callback,arg);
+//	register_timer_callback(heart_beart_timer,heart_beart_timer->timer_func);
+}
+
+static void * rx_message_threadfun(void * arg) {
+
+
+//	printf("rx_message_threadfunc!\n");
+	return tsk_null;
+}
 
 /*NTIAN_SDK_API*/ int ntian_sdk_init(NTIAN_INIT_PARAMS params) {
 
@@ -61,27 +80,38 @@ messages_list_t *list_queue = NULL;
 	return error;
 }
 
-static int timer_heartbeart_callback(const void * arg, tsk_timer_id_t timer_id) {
-
-
-	printf("send heart beat!\n");
-	return 0;
-
-}
-
 
 /*NTIAN_SDK_API*/ void init_connect_drone(int comid) {
 
-//	list_queue = message_list_create();
-//	if(NULL == list_queue) {
-//		/* no memory error */
-//	}
+	ntian_timer_t heart_beart_timer;
 
+	list_queue = message_list_create();
+	if(NULL == list_queue) {
+		/* no memory error */
+	}
+
+	ntian_global_timer_init();	
+	list_queue_condwait = tsk_condwait_create();
+	heart_beart_timer.condwait = list_queue_condwait;
+	heart_beart_timer.msg = tsk_null;
+	heart_beart_timer.timeout = 1000;
+	heart_beart_timer.timer_func = timer_heartbeart_callback;
+
+	heart_beart_timer.id = tsk_timer_mgr_global_schedule(heart_beart_timer.timeout,timer_heartbeart_callback,&heart_beart_timer);
+//	register_timer_callback(&heart_beart_timer,heart_beart_timer.timer_func);
+
+	tsk_thread_create(&rx_thread,rx_message_threadfun,list_queue_condwait);
+//	tsk_thread_create(&tx_thread,tx_message_threadfun,list_queue_condwait);
+
+	tsk_thread_sleep(10000);
+	tsk_thread_join(&rx_thread);
 }
 
 
 /*NTIAN_SDK_API*/ void uninit_sdk() {
 
+//	tsk_thread_join(&tx_thread);
+//	tsk_thread_join(&rx_thread);
 
 }
 
